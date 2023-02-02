@@ -3,24 +3,26 @@
    
     <v-row>
       <v-col>
-      <h1>Tareas pendientes</h1>
-      <TimelineVue :tasks="tasks" @resolve-task="showTask"  ></TimelineVue>
+        <h1>¡Hola!</h1>
+        <h3>  Estas son tus tareas  <br> pendientes para hoy {{ currentDate }}</h3>
+      
+      <TimelineVue :tasks="notCompletedArray" @resolve-task="showTask" @refreshData1="getData()" ></TimelineVue>
       </v-col>
       <v-col>
         <h1>Tareas Realizadas</h1>
-      <TimelineVue :tasks="tasks" @resolve-task="showTask" ></TimelineVue>
+      <TimelineCompleted :tasks="completedArray" @resolve-task="showTask" ></TimelineCompleted>
       </v-col>
     </v-row>
-    <Task :drawer="drawer" :id="id" ></Task>
+    <Task :drawer="drawer" :id="id" @refreshData="getData()"></Task>
   </div>
 </template>
 
 <script>
 import Task from "../components/task.vue";
 import TimelineVue from "~/components/timeline.vue";
-import axios from 'axios'
+import TimelineCompleted from "~/components/timelineCompleted.vue";
 import axiosInstance from "~/plugins/axios";
-import qs from 'qs'
+
 
 export default {
   
@@ -31,10 +33,18 @@ export default {
       tasks: [],
       drawer: false,
       id:0,
+      currentDate: new Date().toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      }),
+      completedArray: [],
+      notCompletedArray: []
     }
   },
   mounted() {
   this.getData();
+  
 }
 ,
   methods:{
@@ -48,22 +58,45 @@ export default {
     },
     
       async getData() {
-      const token = 'e864a0c9eda63181d7d65bc73e61e3dc6b74ef9b82f7049f1fc7d9fc8f29706025bd271d1ee1822b15d654a84e1a0997b973a46f923cc9977b3fcbb064179ecd'
-
+      
       try {
+        this.completedArray=[];
+        this.notCompletedArray=[];
         const response = await axiosInstance.get()
         this.tasks = response.data;
+        this.separateArrays();
       } catch (error) {
         console.error(error)
       }
-    }
+    },
+
+    separateArrays () {
+      console.log(this.tasks);
+    this.tasks.forEach(element => {
+      if (element.is_completed === 1) {
+        this.completedArray.push(element)
+      } else {
+        this.notCompletedArray.push(element)
+      }
+    });
+    console.log(this.completedArray);
+    console.log(this.notCompletedArray);
+    this.completedArray.sort((a, b) => {
+      return new Date(a.due_date) - new Date(b.due_date)
+    });
+    this.notCompletedArray.sort((a, b) => {
+      return new Date(a.due_date) - new Date(b.due_date)
+    });
+    console.log(this.completedArray);
+    console.log(this.notCompletedArray);
+  }
     
 
     
   
   },
   components:{
-    Task, TimelineVue
+    Task, TimelineVue, TimelineCompleted
   },
 
   
