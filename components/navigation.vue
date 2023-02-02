@@ -63,9 +63,7 @@
             to: '/inspire'
           }
         ],
-        miniVariant: false,
-        right: true,
-        rightDrawer: false,
+        miniVariant: true,
         title: 'Reto Nextline'
       }
     }

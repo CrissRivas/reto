@@ -18,7 +18,7 @@ import Card from './card.vue';
         Card
      },
      props:{
-        tasks: Array,
+        tasks: Array,color:String
      },
      emits: ['resolve-task'],
     }

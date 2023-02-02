@@ -1,10 +1,9 @@
 <template>
     <div>
-        <!-- <v-row dense>
-            <v-col cols="12"> -->
                 <v-card
-                    color="#385F73"
+                    shaped
                     dark
+                    outlined
                     min-width="200"
                     class="ma-md-4"
                     @click="$emit('resolve-task', task.id)"
@@ -21,8 +20,7 @@
                     </v-btn>
                     </v-card-actions>
                 </v-card>
-            <!-- </v-col>
-        </v-row> -->
+            
     </div>
 </template>
 
