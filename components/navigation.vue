@@ -41,7 +41,7 @@ export default {
         {
           icon: 'mdi-calendar-cursor',
           title: 'Calendary',
-          to: '/inspire'
+          to: '/calendary'
         }
       ],
       miniVariant: true,
