@@ -4,7 +4,7 @@
 Este proyecto es una aplicación para gestionar tareas desarrollada en Nuxt.js usando Node.js 16.9.0, Vuetify, Axios y Dotenv.
 ## Demo
 
-[ccyberpun.vercel.app](ccyberpun.vercel.app)
+[ccyberpunk.vercel.app](ccyberpunk.vercel.app)
 
 ## Environment Variables
 
