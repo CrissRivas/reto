@@ -14,12 +14,12 @@ import Navigation from "../components/navigation.vue";
 
 
 export default {
-    name: "DefaultLayout",
-    data() {
-        return {
-      
-        };
-    },
-    components: { Navigation }
+  name: "DefaultLayout",
+  data() {
+    return {
+
+    };
+  },
+  components: { Navigation }
 }
 </script>
