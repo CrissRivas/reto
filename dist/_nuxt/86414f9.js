@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[10],{566:function(n,e,t){"use strict";t.r(e);var r={name:"InspirePage"},c=t(72),component=Object(c.a)(r,(function(){this._self._c;return this._m(0)}),[function(){var n=this._self._c;return n("div",[n("h1",[this._v("\n Inspire \n ")])])}],!1,null,null,null);e.default=component.exports}}]);
