@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Crea una tarjeta con una forma personalizada y establece un ancho mínimo de 200 -->
-    <v-card shaped dark outlined min-width="200" class="my-4">
+    <v-card shaped dark outlined min-width="200" class="my-4" :style="{ border: `2px solid ${messageColor}` }">
 
       <!-- Al hacer clic, emite un evento "resolve-task" con el id de la tarea -->
       <div @click="$emit('resolve-task', task.id)">
@@ -11,7 +11,7 @@
         </v-card-title>
 
         <!-- Muestra la fecha de entrega de la tarea -->
-        <v-card-subtitle>Entrega:{{ task.due_date }} </v-card-subtitle>
+        <v-card-subtitle>{{ formattedDate }} </v-card-subtitle>
       </div>
 
       <!-- Si la tarea no se ha completado, muestra un botón verde con un icono de "mdi-star-outline" -->
@@ -40,7 +40,7 @@ export default {
     return {
       task: [],
       detail: "",
-      showTask: true
+      showTask: true,
     }
   },
   methods: {
@@ -61,6 +61,24 @@ export default {
         console.error(error)
       }
     }
+  },
+
+  computed: {
+    formattedDate() {
+      const options = { weekday: 'long', month: 'long', day: 'numeric' };
+      const dateObject = new Date(this.task.due_date);
+      return dateObject.toLocaleDateString('es-ES', options);
+    },
+    messageColor() {
+      const today = new Date();
+      const targetDate = new Date(this.task.due_date);
+      const timeDiff = targetDate - today;
+      const diffDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+      if (this.task.is_completed == 1) return 'blue';
+      if (diffDays > 7) return 'green';
+      if (diffDays >= 4 && diffDays <= 7) return 'orange';
+      return 'red';
+    },
   },
 
   props: {

@@ -39,6 +39,10 @@ Iniciar el servidor
   npm run start
 ```
 
+## Postman
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/9794430-920c19e4-9111-4acf-8b5d-9851a6c6b425?action=collection%2Ffork&collection-url=entityId%3D9794430-920c19e4-9111-4acf-8b5d-9851a6c6b425%26entityType%3Dcollection%26workspaceId%3D51465863-630f-4ded-b451-fca228034ea6)
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)

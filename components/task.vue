@@ -13,12 +13,12 @@
     <!-- Detalles de la tarea -->
     <v-row class="pa-3" dense v-if="edit">
       <v-col>
-      <!-- Titulo -->
+        <!-- Titulo -->
         <v-row justify="center" align="center">
           <h1 class="display-2 ma-4"> {{ task.title }}</h1>
         </v-row>
         <v-row justify="center" align="center">
-        <!-- Tag -->
+          <!-- Tag -->
           <v-chip class="ma-2" color="primary" v-if="task.tags">
             {{ task.tags }}
           </v-chip>
@@ -43,8 +43,8 @@
           <v-row>
             <v-col align="center" justify="center">
               <p>Fecha de entrega:</p>
-              <h1> {{ weekday }} </h1>
-              <h3> {{ this.task.due_date }}</h3>
+              <h1> {{ formattedDate }} </h1>
+              <h3> {{ formattedDateMonth }}</h3>
             </v-col>
           </v-row>
           <!-- Boton para completar la tarea o para marcarla como incompleta -->
@@ -58,7 +58,7 @@
         </v-btn>
         <v-row>
           <v-col>
-          <!-- Boton para editar la tarea -->
+            <!-- Boton para editar la tarea -->
             <v-btn @click="edit = !edit" color="blue" block class="pa-4">
               <v-icon large>mdi-pencil</v-icon>
             </v-btn>
@@ -107,14 +107,14 @@
     <!-- Detalles de la tarea -->
     <!-- Seccion para editar o subir nueva tarea -->
     <v-row class="pa-3" dense v-if="!edit">
-    <!-- Editar titulo -->
+      <!-- Editar titulo -->
       <v-text-field label="Titulo" class="display-1 pa-4" color="green" outlined v-model="task.title"></v-text-field>
       <!-- Editar tag -->
       <v-text-field dense label="Tag" filled rounded color="green" v-model="task.tags"></v-text-field>
       <!-- Editar descripción -->
       <v-textarea outlined name="input-7-4" label="Descripción" color="green" rows="3"
         v-model="task.description"></v-textarea>
-        <!-- Editar comentarios -->
+      <!-- Editar comentarios -->
       <v-textarea outlined name="input-7-4" label="Comentarios" color="green" rows="3"
         v-model="task.comments"></v-textarea>
       <!-- Seleccionador de fechas -->
@@ -201,7 +201,7 @@ export default {
       this.newTask = true;
     },
     //Setea las variables para editar una tarea
-    edits(){
+    edits() {
       this.drawer = true;
       this.edit = false;
       this.newTask = false;
@@ -298,14 +298,16 @@ export default {
 
     //Una funcion para obtener los dias restantes para llegar a una fecha
     difference() {
-      const date1 = new Date(this.task.due_date);
-      const date2 = new Date();
-      const timeDiff = Math.abs(date2.getTime() - date1.getTime());
-      const difer = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      if (difer >= 7) {
+      const today = new Date();
+      const targetDate = new Date(this.task.due_date);
+      const timeDiff = targetDate - today;
+      const difer = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+      if (this.task.is_completed == 1) return 'blue';
+      if (difer > 7) {
         return "green" //Si faltan más de 7 días es color verde 
       }
-      if (difer >= 4) {
+      if (difer >= 4 && difer <= 7) {
         return "orange" //Si faltan entre 4 y 7 días es naranja
       }
       else {
@@ -313,12 +315,17 @@ export default {
       }
     },
     // Con esta funcion podemos 
-    weekday() {
-      const weekdays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-      const date = new Date(this.task.due_date);
-      return weekdays[date.getDay()];
-    }
-
+    formattedDate() {
+      const options = { weekday: 'long' };
+      const dateObject = new Date(this.task.due_date);
+      let dateString = dateObject.toLocaleDateString('es-ES', options);
+      return dateString.charAt(0).toLocaleUpperCase() + dateString.slice(1);
+    },
+    formattedDateMonth() {
+      const options = {  month: 'long', day: 'numeric' ,year: 'numeric' };
+      const dateObject = new Date(this.task.due_date);
+      return dateObject.toLocaleDateString('es-ES', options);
+    },
   }
 
 
